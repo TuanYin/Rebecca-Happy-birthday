@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dreamy Birthday — Rebecca</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+
+<style>
+body {
+  margin:0; height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Inter',sans-serif;
+  background: radial-gradient(circle at 20% 20%, #0b0820, #120a2c, #251556, #3b2bb0);
+  overflow:hidden; color:#f5f7ff; position:relative;
+}
+
+/* TWINKLE STARS */
+.star {
+  position:fixed; width:2px; height:2px; background:#fff; border-radius:50%;
+  opacity:0.5; box-shadow:0 0 6px rgba(180,170,255,0.6); pointer-events:none;
+  animation: twinkle 4s infinite ease-in-out;
+}
+@keyframes twinkle { 0%,100%{opacity:0.5} 50%{opacity:0.1} }
+
+/* SHOOTING STAR */
+.shooting {
+  position:fixed; width:2px; height:2px; background:white;
+  border-radius:50%; opacity:0.8;
+  box-shadow:0 0 8px white;
+  animation: shoot 1.8s linear forwards;
+}
+@keyframes shoot {
+  0% { transform:translate(0,0) scale(1); opacity:1; }
+  100% { transform:translate(-300px,300px) scale(0); opacity:0; }
+}
+
+/* Glow spots */
+.glow-spot {
+  position:absolute; border-radius:50%; filter:blur(60px);
+  opacity:0.12; pointer-events:none; animation: floatGlow 10s infinite alternate;
+}
+@keyframes floatGlow {
+  0% {transform:translateY(0) translateX(0); opacity:0.12;}
+  50%{transform:translateY(-40px) translateX(20px); opacity:0.2;}
+  100%{transform:translateY(0) translateX(-20px); opacity:0.12;}
+}
+
+/* Card */
+.flip-wrap{ perspective:1200px; width:340px; height:460px; position:relative; }
+.card { width:100%; height:100%; position:relative; }
+
+/* Slide base */
+.slide-base {
+  position:absolute; inset:0;
+  background: linear-gradient(180deg,#0d0625,#220d47);
+  border-radius:18px; padding:28px;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  box-shadow:0 20px 50px rgba(10,6,30,0.6);
+  opacity:0; pointer-events:none;
+  transform: translateY(20px);
+  transition:opacity 0.8s ease, transform 0.8s ease;
+}
+
+/* When visible */
+.active {
+  opacity:1 !important;
+  transform: translateY(0) !important;
+  pointer-events:auto !important;
+}
+
+/* Titles */
+.title{ font-size:1.6rem; font-weight:700; text-align:center; color:white; }
+.name{ font-size:2.4rem; font-weight:800; color:#c8baff; margin-top:8px; }
+
+/* Buttons */
+.btn {
+  margin-top:18px; padding:14px 22px; border-radius:12px;
+  background:linear-gradient(180deg,#6246ea,#3b2bb0);
+  border:1px solid rgba(255,255,255,0.06);
+  color:white; cursor:pointer; font-weight:600;
+  transition:0.25s ease; box-shadow:0 8px 30px rgba(90,60,200,0.15);
+}
+.btn:hover{ transform:scale(1.08); }
+.btn:active{ transform:scale(0.96); }
+</style>
+</head>
+<body>
+
+<!-- Stars -->
+<div id="starLayer"></div>
+
+<!-- Glow spots -->
+<div class="glow-spot" style="width:120px;height:120px;top:15%;left:20%;background:rgba(190,167,255,0.2)"></div>
+<div class="glow-spot" style="width:80px;height:80px;top:70%;left:60%;background:rgba(255,200,220,0.15)"></div>
+<div class="glow-spot" style="width:150px;height:150px;top:40%;left:75%;background:rgba(150,200,255,0.18)"></div>
+
+<div class="flip-wrap">
+  <div class="card">
+
+    <!-- SLIDE 1 -->
+    <div class="slide-base active" id="slide1">
+      <h1 class="title">Happy Birthday</h1>
+      <h2 class="name">Rebecca</h2>
+
+      <p style="margin-top:12px; text-align:center; color:#ddd;">
+        Selamat ulang tahun, Rebecca.<br>
+        Dunia terasa sedikit lebih lembut sejak aku mengenalmu.<br>
+        Semoga langkahmu tahun ini selalu mengantar kamu<br>
+        pada hal-hal yang kamu doakan diam-diam.
+      </p>
+
+      <p style="margin-top:16px; text-align:center; color:#b7aaff; font-size:0.9rem;">
+        – Ardi –
+      </p>
+
+      <button id="toSlide2" class="btn">Open</button>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide-base" id="slide2">
+      <h1 class="title">Untukmu 🎉</h1>
+
+      <p style="margin-top:12px; text-align:center; color:#eae5ff;">
+        Semoga kamu terus menemukan alasan untuk tersenyum,<br>
+        bahkan di hari yang terasa berat.<br>
+        Kamu pantas untuk tenang, bahagia,<br>
+        dan dicintai dengan tulus.
+      </p>
+
+      <button id="toSlide3" class="btn">Next ➜</button>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide-base" id="slide3">
+      <h1 class="title">Terima Kasih</h1>
+
+      <p style="margin-top:12px; text-align:center; color:#f2eaff;">
+        Terima kasih sudah menjadi dirimu,<br>
+        sudah kuat sejauh ini,<br>
+        dan sudah memberi warna<br>
+        pada dunia orang-orang di sekitarmu.
+      </p>
+
+      <button id="backTo1" class="btn">Exit</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* Random stars */
+const rand=(a,b)=>a+Math.random()*(b-a);
+for(let i=0;i<80;i++){
+  const s=document.createElement('div');
+  s.className='star';
+  s.style.left=rand(0,100)+'%';
+  s.style.top=rand(0,100)+'%';
+  s.style.width=s.style.height=rand(1,3)+'px';
+  document.getElementById('starLayer').appendChild(s);
+}
+
+/* Shooting stars loop */
+setInterval(()=>{
+  const st=document.createElement('div');
+  st.className='shooting';
+  st.style.left=rand(60,100)+'%';
+  st.style.top=rand(0,40)+'%';
+  document.body.appendChild(st);
+  setTimeout(()=>st.remove(),1800);
+}, 2500);
+
+/* Slides */
+function show(a,b){
+  a.classList.remove("active");
+  b.classList.add("active");
+}
+
+const s1=document.getElementById("slide1");
+const s2=document.getElementById("slide2");
+const s3=document.getElementById("slide3");
+
+document.getElementById("toSlide2").onclick=()=>{
+  show(s1,s2);
+  confetti({particleCount:120, spread:90, origin:{y:0.6}});
+};
+
+document.getElementById("toSlide3").onclick=()=>{
+  show(s2,s3);
+  confetti({particleCount:150, spread:120, origin:{y:0.6}});
+};
+
+document.getElementById("backTo1").onclick=()=>{
+  show(s3,s1);
+};
+</script>
+
+</body>
+</html>
